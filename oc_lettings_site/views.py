@@ -1,3 +1,9 @@
+"""
+Main views for the 'oc_lettings_site' project.
+
+Includes the homepage and any project-wide views.
+"""
+
 from django.shortcuts import render
 
 
@@ -11,4 +17,13 @@ from django.shortcuts import render
 # pellentesque iaculis enim cursus in. Praesent volutpat porttitor magna,
 # non finibus neque cursus id.
 def index(request):
+    """
+    Display the homepage.
+
+    Args:
+        request: HTTP request object.
+
+    Returns:
+        HttpResponse: Rendered homepage.
+    """
     return render(request, 'index.html')

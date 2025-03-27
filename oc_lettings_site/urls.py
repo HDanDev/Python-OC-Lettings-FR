@@ -1,3 +1,9 @@
+"""
+Main URL configuration for the project.
+
+Routes requests to the appropriate app URLs.
+"""
+
 from django.contrib import admin
 from django.urls import path, include
 

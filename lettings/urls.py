@@ -1,5 +1,8 @@
-from django.urls import path
+"""
+URL configuration for the 'lettings' application.
+"""
 
+from django.urls import path
 from . import views
 
 urlpatterns = [
