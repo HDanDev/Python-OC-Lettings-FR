@@ -4,7 +4,13 @@ Main views for the 'oc_lettings_site' project.
 Includes the homepage and any project-wide views.
 """
 
+import logging
+import sentry_sdk
+
 from django.shortcuts import render
+from django.http import HttpResponseServerError
+
+logger = logging.getLogger(__name__)
 
 
 # Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -26,4 +32,11 @@ def index(request):
     Returns:
         HttpResponse: Rendered homepage.
     """
-    return render(request, 'index.html')
+    try:
+        logger.info("Rendering homepage...")
+        return render(request, 'index.html')
+
+    except Exception as e:
+        logger.error("Error rendering homepage: %s", str(e), exc_info=True)
+        sentry_sdk.capture_exception(e)
+        return HttpResponseServerError("An error occurred while rendering the homepage.")
