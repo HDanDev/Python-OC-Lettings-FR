@@ -3,7 +3,8 @@ Unit tests for the 'lettings' models.
 """
 
 import pytest
-from lettings.models import Address, Letting
+from lettings.models.address import Address
+from lettings.models.letting import Letting
 
 
 @pytest.mark.django_db

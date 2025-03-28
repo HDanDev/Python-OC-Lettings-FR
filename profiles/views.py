@@ -5,7 +5,7 @@ Handles displaying user profiles and lists of profiles.
 """
 
 from django.shortcuts import render
-from .models import Profile
+from .models.profile import Profile
 
 
 # Sed placerat quam in pulvinar commodo.

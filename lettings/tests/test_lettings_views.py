@@ -4,7 +4,8 @@ Integration tests for the 'lettings' views.
 
 import pytest
 from django.urls import reverse
-from lettings.models import Address, Letting
+from lettings.models.address import Address
+from lettings.models.letting import Letting
 
 
 @pytest.mark.django_db

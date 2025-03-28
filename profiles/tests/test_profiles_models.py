@@ -4,7 +4,7 @@ Unit tests for the 'profiles' models.
 
 import pytest
 from django.contrib.auth.models import User
-from profiles.models import Profile
+from profiles.models.profile import Profile
 
 
 @pytest.mark.django_db

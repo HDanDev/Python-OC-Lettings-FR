@@ -1,8 +1,9 @@
 import pytest
 from django.urls import reverse
 from django.contrib.auth.models import User
-from profiles.models import Profile
-from lettings.models import Letting, Address
+from profiles.models.profile import Profile
+from lettings.models.address import Address
+from lettings.models.letting import Letting
 
 
 @pytest.mark.django_db

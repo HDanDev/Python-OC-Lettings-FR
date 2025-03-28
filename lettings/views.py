@@ -5,7 +5,7 @@ Handles displaying lists of lettings and details of specific rental listings.
 """
 
 from django.shortcuts import render
-from .models import Letting
+from .models.letting import Letting
 
 
 # Aenean leo magna, vestibulum et tincidunt fermentum,
