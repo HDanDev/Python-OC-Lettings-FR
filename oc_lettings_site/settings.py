@@ -142,7 +142,7 @@ LOGGING = {
             'class': 'sentry_sdk.integrations.logging.EventHandler',
         },
         'console': {
-            'level': 'DEBUG',
+            'level': 'ERROR',
             'class': 'logging.StreamHandler',
         },
     },
