@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from profiles.models import Profile
 from lettings.models import Letting, Address
 
+
 @pytest.mark.django_db
 def test_site_navigation(client):
     """
@@ -13,12 +14,12 @@ def test_site_navigation(client):
     # Create some sample users and profiles for the test
     user = User.objects.create(username="john_doe")
     Profile.objects.create(user=user, favorite_city="Paris")
-    
+
     # Create an Address instance
     address = Address.objects.create(
         number=123,
-        street="Baker Street", 
-        city="London", 
+        street="Baker Street",
+        city="London",
         zip_code=56789
     )
 
@@ -53,4 +54,3 @@ def test_site_navigation(client):
     assert response.status_code == 200
     assert b'Cozy Apartment' in response.content
     assert b'123 Baker Street' in response.content
-

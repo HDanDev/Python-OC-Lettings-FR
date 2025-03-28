@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from profiles.models import Profile
 
+
 @pytest.mark.django_db
 def test_profiles_index(client):
     """
@@ -15,6 +16,7 @@ def test_profiles_index(client):
     response = client.get(reverse('profiles_index'))
     assert response.status_code == 200
     assert b"<h1 class=\"page-header-ui-title mb-3 display-6\">Profiles</h1>" in response.content
+
 
 @pytest.mark.django_db
 def test_profile_detail(client):

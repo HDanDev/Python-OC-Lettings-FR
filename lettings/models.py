@@ -1,7 +1,7 @@
 """
 Models for the 'lettings' application.
 
-This module defines the data models related to property lettings, 
+This module defines the data models related to property lettings,
 including addresses and rental listings.
 """
 
@@ -12,7 +12,7 @@ from django.core.validators import MaxValueValidator, MinLengthValidator
 class Address(models.Model):
     """
     Represents a physical address.
-    
+
     Attributes:
         number (int): Street number.
         street (str): Street name.
