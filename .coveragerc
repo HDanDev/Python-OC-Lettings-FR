@@ -1,0 +1,12 @@
+[run]
+omit =
+    manage.py
+    oc_lettings_site/asgi.py
+    oc_lettings_site/wsgi.py
+    **/migrations/*
+    **/apps.py
+    **/__init__.py
+
+[report]
+show_missing = True
+skip_covered = True
