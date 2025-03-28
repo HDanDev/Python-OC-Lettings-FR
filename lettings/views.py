@@ -4,8 +4,14 @@ Views for the 'lettings' application.
 Handles displaying lists of lettings and details of specific rental listings.
 """
 
-from django.shortcuts import render
+import logging
+import sentry_sdk
+
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseServerError
 from .models.letting import Letting
+
+logger = logging.getLogger(__name__)
 
 
 # Aenean leo magna, vestibulum et tincidunt fermentum,
@@ -22,9 +28,17 @@ def index(request):
     Returns:
         HttpResponse: Rendered HTML page with the list of lettings.
     """
-    lettings_list = Letting.objects.all()
-    context = {'lettings_list': lettings_list}
-    return render(request, 'lettings/index.html', context)
+    try:
+        lettings_list = Letting.objects.all()
+        logger.info("Successfully retrieved lettings list. Count: %d", len(lettings_list))
+
+        context = {'lettings_list': lettings_list}
+        return render(request, 'lettings/index.html', context)
+
+    except Exception as e:
+        logger.error("Error retrieving lettings list: %s", str(e), exc_info=True)
+        sentry_sdk.capture_exception(e)
+        return HttpResponseServerError("An error occurred while fetching lettings.")
 
 
 # Cras ultricies dignissim purus, vitae hendrerit ex varius non. In accumsan porta
@@ -48,9 +62,17 @@ def letting(request, letting_id):
     Returns:
         HttpResponse: Rendered HTML page with letting details.
     """
-    letting = Letting.objects.get(id=letting_id)
-    context = {
-        'title': letting.title,
-        'address': letting.address,
-    }
-    return render(request, 'lettings/letting.html', context)
+    try:
+        letting = get_object_or_404(Letting, id=letting_id)
+        logger.info("Successfully retrieved letting: %s (ID: %d)", letting.title, letting.id)
+
+        context = {
+            'title': letting.title,
+            'address': letting.address,
+        }
+        return render(request, 'lettings/letting.html', context)
+
+    except Exception as e:
+        logger.error("Error retrieving letting ID %d: %s", letting_id, str(e), exc_info=True)
+        sentry_sdk.capture_exception(e)
+        return HttpResponseServerError("An error occurred while fetching the letting.")
