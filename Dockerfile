@@ -25,8 +25,8 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 # 6. Copy project files
 COPY . .
 
-# 7. Run collectstatic (safe version with fallback)
-RUN python manage.py collectstatic --noinput || echo "Collectstatic failed (no static files yet?)"
+# 7. Make entrypoint script executable
+RUN chmod +x /app/entrypoint.sh
 
 # 8. Default command
-CMD ["gunicorn", "oc_lettings_site.wsgi:application", "--bind", "0.0.0.0:8000"]
+CMD ["./entrypoint.sh"]

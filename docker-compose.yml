@@ -10,3 +10,5 @@ services:
       - .env
     volumes:
       - .:/app
+    environment:
+      - SECRET_KEY=${SECRET_KEY}  # This will pass SECRET_KEY to the container

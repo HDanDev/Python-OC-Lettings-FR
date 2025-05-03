@@ -12,7 +12,7 @@ env = environ.Env(
     DEBUG=(bool, False)
 )
 
-environ.Env.read_env()
+environ.Env.read_env(env_file=os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -23,7 +23,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=["localhost", "127.0.0.1"])
 
 DATABASE_ENGINE = env('DATABASE_ENGINE', default='django.db.backends.sqlite3')
 DATABASE_NAME = env('DATABASE_NAME', default=os.path.join(BASE_DIR, 'oc-lettings-site.sqlite3'))
@@ -51,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'oc_lettings_site.urls'
@@ -125,6 +126,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "static", ]
+STATICFILES_STORAGE = 'storage.IgnoreMissingFilesStorage'
 
 sentry_sdk.init(
     dsn=SENTRY_DSN,
