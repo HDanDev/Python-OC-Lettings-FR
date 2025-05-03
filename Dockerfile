@@ -26,7 +26,7 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 COPY . .
 
 # 7. Make entrypoint script executable
-RUN chmod +x /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh /app/start.sh
 
 # 8. Default command
 CMD ["./entrypoint.sh"]
