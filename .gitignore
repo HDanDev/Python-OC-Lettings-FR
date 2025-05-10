@@ -3,3 +3,4 @@
 .env
 venv
 dump.json
+doc/_build/
