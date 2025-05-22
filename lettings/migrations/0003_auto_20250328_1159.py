@@ -4,6 +4,14 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
+    """
+    Migration to update the model options for the 'Address' model
+    in the 'lettings' app.
+
+    Specifically, this migration sets the `verbose_name` and 
+    `verbose_name_plural` options for the Address model to improve 
+    readability in the Django admin interface and other representations.
+    """
 
     dependencies = [
         ('lettings', '0002_copy_data'),
