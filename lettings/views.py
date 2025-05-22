@@ -1,0 +1,78 @@
+"""
+Views for the 'lettings' application.
+
+Handles displaying lists of lettings and details of specific rental listings.
+"""
+
+import logging
+import sentry_sdk
+
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseServerError
+from .models.letting import Letting
+
+logger = logging.getLogger(__name__)
+
+
+# Aenean leo magna, vestibulum et tincidunt fermentum,
+# consectetur quis velit. Sed non placerat massa. Integer est nunc, pulvinar a
+# tempor et, bibendum id arcu. Vestibulum ante ipsum primis in faucibus orci
+# luctus et ultrices posuere cubilia curae; Cras eget scelerisque
+def index(request):
+    """
+    Display the list of all lettings.
+
+    Args:
+        request: HTTP request object.
+
+    Returns:
+        HttpResponse: Rendered HTML page with the list of lettings.
+    """
+    try:
+        lettings_list = Letting.objects.all()
+        logger.info("Successfully retrieved lettings list. Count: %d", len(lettings_list))
+
+        context = {'lettings_list': lettings_list}
+        return render(request, 'lettings/index.html', context)
+
+    except Exception as e:
+        logger.error("Error retrieving lettings list: %s", str(e), exc_info=True)
+        sentry_sdk.capture_exception(e)
+        return HttpResponseServerError("An error occurred while fetching lettings.")
+
+
+# Cras ultricies dignissim purus, vitae hendrerit ex varius non. In accumsan porta
+# nisl id eleifend. Praesent dignissim, odio eu consequat pretium, purus urna vulputate arcu,
+# vitae efficitur lacus justo nec purus. Aenean finibus faucibus lectus at porta. Maecenas auctor,
+# est ut luctus congue, dui enim mattis enim, ac condimentum velit libero in magna.
+# Suspendisse potenti. In tempus a nisi sed laoreet.
+# Suspendisse porta dui eget sem accumsan interdum. Ut quis urna pellentesque justo
+# mattis ullamcorper ac non tellus. In tristique mauris eu velit fermentum,
+# tempus pharetra est luctus. Vivamus consequat aliquam libero, eget bibendum lorem.
+# Sed non dolor risus. Mauris condimentum auctor elementum. Donec quis nisi ligula.
+# Integer vehicula tincidunt enim, ac lacinia augue pulvinar sit amet.
+def letting(request, letting_id):
+    """
+    Display the details of a specific letting.
+
+    Args:
+        request: HTTP request object.
+        letting_id (int): ID of the letting.
+
+    Returns:
+        HttpResponse: Rendered HTML page with letting details.
+    """
+    try:
+        letting = get_object_or_404(Letting, id=letting_id)
+        logger.info("Successfully retrieved letting: %s (ID: %d)", letting.title, letting.id)
+
+        context = {
+            'title': letting.title,
+            'address': letting.address,
+        }
+        return render(request, 'lettings/letting.html', context)
+
+    except Exception as e:
+        logger.error("Error retrieving letting ID %d: %s", letting_id, str(e), exc_info=True)
+        sentry_sdk.capture_exception(e)
+        return HttpResponseServerError("An error occurred while fetching the letting.")

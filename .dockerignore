@@ -1,0 +1,15 @@
+__pycache__/
+.pytest_cache
+.coverage
+.coveragec
+*.pyc
+*.pyo
+*.pyd
+.env
+env/
+venv/
+*.db
+*.sqlite3
+.git/
+.dockerignore
+Dockerfile
