@@ -12,7 +12,7 @@ build:
       - pip install --upgrade pip
 
 sphinx:
-  configuration: doc/source/conf.py
+  configuration: doc/source/mocked_conf.py
 
 python:
   install:
