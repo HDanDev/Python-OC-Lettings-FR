@@ -1,6 +1,7 @@
 import os
 import sentry_sdk
 import environ
+import dj_database_url
 
 from pathlib import Path
 from sentry_sdk.integrations.django import DjangoIntegration
@@ -25,8 +26,6 @@ DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=["localhost", "127.0.0.1"])
 
-DATABASE_ENGINE = env('DATABASE_ENGINE', default='django.db.backends.sqlite3')
-DATABASE_NAME = env('DATABASE_NAME', default=os.path.join(BASE_DIR, 'oc-lettings-site.sqlite3'))
 SENTRY_DSN = env('SENTRY_DSN', default="")
 
 # Application definition
@@ -79,12 +78,12 @@ WSGI_APPLICATION = 'oc_lettings_site.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': DATABASE_ENGINE,
-        'NAME': DATABASE_NAME,
-    }
+    'default': dj_database_url.config(
+        default='sqlite:///db.sqlite3',
+        conn_max_age=600,
+        ssl_require=True
+    )
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators

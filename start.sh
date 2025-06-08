@@ -4,7 +4,7 @@ PORT=${PORT:-8000}
 if [ "$RUN_MIGRATIONS" = "1" ]; then
     echo "Running migrations..."
     python manage.py migrate --noinput
-    python manage.py loaddata dump.json
+    # python manage.py loaddata dump.json
 fi
 
 echo "Starting Gunicorn..."
