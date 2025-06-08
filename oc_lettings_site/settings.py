@@ -1,4 +1,5 @@
-import os, sys
+import os
+import sys
 import sentry_sdk
 import environ
 import dj_database_url
