@@ -1,4 +1,4 @@
-import os
+import os, sys
 import sentry_sdk
 import environ
 import dj_database_url
@@ -77,13 +77,24 @@ WSGI_APPLICATION = 'oc_lettings_site.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': dj_database_url.config(
-        default='sqlite:///db.sqlite3',
-        conn_max_age=600,
-        ssl_require=True
-    )
-}
+
+IS_TESTING = "pytest" in sys.modules
+
+if IS_TESTING:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': ':memory:',
+        }
+    }
+else:
+    DATABASES = {
+        'default': dj_database_url.config(
+            default='sqlite:///db.sqlite3',
+            conn_max_age=600,
+            ssl_require=True
+        )
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
