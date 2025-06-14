@@ -140,14 +140,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-if IS_DEV_OC_LETTINGS:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-    STATIC_URL = '/static/'
-    STATICFILES_DIRS = [BASE_DIR / "static", ]
-else:
-    STATIC_URL = '/static/'
-    STATICFILES_DIRS = []  # No extra dirs in prod, all goes to STATIC_ROOT
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / "static", ]
+
+if not IS_DEV_OC_LETTINGS:
     try:
         STATICFILES_STORAGE = 'storage.IgnoreMissingFilesStorage'
     except ImportError:
