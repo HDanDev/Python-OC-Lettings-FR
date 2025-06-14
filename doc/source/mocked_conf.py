@@ -15,6 +15,9 @@ project = 'Orange County Lettings'
 copyright = '2025, grking8, colinmeldrum, ranga-gonnage, hdandev'
 author = 'grking8, colinmeldrum, ranga-gonnage, hdandev'
 
+if os.environ.get('READTHEDOCS') == 'True':
+    os.environ['DATABASE_URL'] = 'sqlite:///db.sqlite3'
+
 os.environ.setdefault('SECRET_KEY', 'dummy-for-docs')
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'oc_lettings_site.settings')
 django.setup()
