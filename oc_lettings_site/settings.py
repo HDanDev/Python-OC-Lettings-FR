@@ -143,7 +143,7 @@ USE_TZ = True
 if IS_DEV_OC_LETTINGS:
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
     STATIC_URL = '/static/'
-    STATICFILES_DIRS = [BASE_DIR / "static",]
+    STATICFILES_DIRS = [BASE_DIR / "static", ]
 else:
     STATIC_URL = '/static/'
     STATICFILES_DIRS = []  # No extra dirs in prod, all goes to STATIC_ROOT
