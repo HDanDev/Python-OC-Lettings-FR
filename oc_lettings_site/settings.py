@@ -11,7 +11,7 @@ from sentry_sdk.integrations.django import DjangoIntegration
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env(
-    DEBUG=(bool, False)
+    IS_DEV_OC_LETTINGS=(bool, False)
 )
 
 environ.Env.read_env(env_file=os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env'))
@@ -23,8 +23,7 @@ environ.Env.read_env(env_file=os.path.join(os.path.dirname(os.path.dirname(__fil
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')
-
+IS_DEV_OC_LETTINGS = env.bool('IS_DEV_OC_LETTINGS', default=True)
 ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=["localhost", "127.0.0.1"])
 
 SENTRY_DSN = env('SENTRY_DSN', default="")
@@ -80,6 +79,7 @@ WSGI_APPLICATION = 'oc_lettings_site.wsgi.application'
 
 
 IS_TESTING = "pytest" in sys.modules
+DATABASE_URL = env('DATABASE_URL')
 
 if IS_TESTING:
     DATABASES = {
@@ -88,10 +88,17 @@ if IS_TESTING:
             'NAME': ':memory:',
         }
     }
-else:
+elif IS_DEV_OC_LETTINGS:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'oc-lettings-site.sqlite3'),
+        }
+    }
+elif not IS_DEV_OC_LETTINGS:
     DATABASES = {
         'default': dj_database_url.config(
-            default='sqlite:///db.sqlite3',
+            default=DATABASE_URL,
             conn_max_age=600,
             ssl_require=True
         )
@@ -133,11 +140,18 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / "static", ]
-STATICFILES_STORAGE = 'storage.IgnoreMissingFilesStorage'
+if IS_DEV_OC_LETTINGS:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    STATIC_URL = '/static/'
+    STATICFILES_DIRS = [BASE_DIR / "static",]
+else:
+    STATIC_URL = '/static/'
+    STATICFILES_DIRS = []  # No extra dirs in prod, all goes to STATIC_ROOT
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    try:
+        STATICFILES_STORAGE = 'storage.IgnoreMissingFilesStorage'
+    except ImportError:
+        pass
 
 sentry_sdk.init(
     dsn=SENTRY_DSN,
