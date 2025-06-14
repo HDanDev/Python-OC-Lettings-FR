@@ -14,7 +14,8 @@ jobs:
     env:
       DJANGO_SETTINGS_MODULE: oc_lettings_site.settings
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
-      IS_DEV_OC_LETTINGS: 'true'
+      IS_DEV_OC_LETTINGS: 'True'
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
     steps:
       - name: Checkout code
