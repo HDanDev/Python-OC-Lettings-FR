@@ -10,6 +10,7 @@ Orange County Lettings documentation
    :maxdepth: 1
    :caption: Contents:
 
+   modules/installation
    modules/oc_lettings_site
    modules/lettings
    modules/profiles
